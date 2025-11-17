@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Primary Colors -->
+    <color name="primary_blue">#4A90E2</color>
+    <color name="splash_background_start">#A4D7E1</color>
+    <color name="splash_background_end">#4A90E2</color>
+    <color name="bottom_nav_color">#4A90E2</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#666666</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_alpha_80">#CCFFFFFF</color>
+    <color name="white_alpha_60">#99FFFFFF</color>
+    <color name="white_alpha_40">#99FFFFFF</color>
+
+
+    
+    <!-- Status Colors -->
+    <color name="success_green">#7ED321</color>
+    <color name="error_red">#E74C3C</color>
+    <color name="warning_orange">#FF9800</color>
+    
+    <!-- Divider Color -->
+    <color name="divider_color">#E0E0E0</color>
+    
+     Bottom Navigation Colors
+    <color name="bottom_nav_color_selector">
+        <selector>
+            <item android:color="@color/primary_blue" android:state_checked="true" />
+            <item android:color="@color/text_secondary" android:state_checked="false" />
+        </selector>
+    </color>
+</resources>
