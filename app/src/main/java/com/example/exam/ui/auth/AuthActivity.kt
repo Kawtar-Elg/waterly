@@ -1,17 +1,16 @@
-package com.waterly.ui.auth
+package com.example.exam.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.exam.MainActivity
 import com.example.exam.WaterlyApp
-import com.waterly.data.database.AppDatabase
+import com.example.exam.data.database.AppDatabase
 import com.example.exam.data.entity.User
-import com.waterly.databinding.ActivityAuthBinding
+import com.example.exam.databinding.ActivityAuthBinding
 import kotlinx.coroutines.launch
 
 class AuthActivity : AppCompatActivity() {
@@ -39,7 +38,7 @@ class AuthActivity : AppCompatActivity() {
     private fun setupListeners() {
         // Toggle between login and signup
         binding.tvToggleMode.setOnClickListener {
-            if (binding.root.visibility == View.VISIBLE) {
+            if (binding.clLoginView.visibility == View.VISIBLE) {
                 showSignupView()
             } else {
                 showLoginView()
@@ -54,15 +53,6 @@ class AuthActivity : AppCompatActivity() {
         // Signup button
         binding.btnSignup.setOnClickListener {
             performSignup()
-        }
-        
-        // Toggle password visibility
-        binding.ivPasswordToggle1.setOnClickListener {
-            togglePasswordVisibility(binding.etPassword1)
-        }
-        
-        binding.ivPasswordToggle2.setOnClickListener {
-            togglePasswordVisibility(binding.etPassword2)
         }
     }
     
@@ -79,17 +69,7 @@ class AuthActivity : AppCompatActivity() {
         binding.tvToggleMode.text = "Déjà un compte ? Se connecter"
         binding.tvTitle.text = "Inscription"
     }
-    
-    private fun togglePasswordVisibility(textInputEditText: com.google.android.material.textfield.TextInputEditText) {
-        // Toggle password visibility
-        if (textInputEditText.transformationMethod == null) {
-            textInputEditText.transformationMethod = PasswordTransformationMethod()
-        } else {
-            textInputEditText.transformationMethod = null
-        }
-        textInputEditText.setSelection(textInputEditText.text?.length ?: 0)
-    }
-    
+
     private fun performLogin() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString()

@@ -1,4 +1,4 @@
-package com.waterly.ui.tips
+package com.example.exam.ui.tips
 
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.waterly.databinding.FragmentTipsBinding
+import com.example.exam.R
+import com.example.exam.databinding.FragmentTipsBinding
 
 class TipsFragment : Fragment() {
     
@@ -46,14 +47,14 @@ class TipsFragment : Fragment() {
     
     private fun loadTipsData() {
         val tips = listOf(
-            Tip("Buvez un verre d'eau avant chaque repas", "Recommandé par les nutritionnistes pour améliorer la digestion.", TipType.NUTRITION, R.drawable.ic_nutrition),
-            Tip("Gardez une bouteille d'eau à portée de main", "Ayez toujours une bouteille d'eau près de vous pour ne jamais oublier de boire.", TipType.PRACTICE, R.drawable.ic_bottle),
-            Tip("Utilisez des applications de rappel", "Programmez des rappels pour vous rappeler de boire de l'eau régulièrement.", TipType.TECHNOLOGY, R.drawable.ic_reminder),
-            Tip("Ajoutez des fruits à votre eau", "Infusez votre eau avec des citron, concombre ou menthe pour plus de goût.", TipType.RECIPE, R.drawable.ic_fruit),
-            Tip("Buvez de l'eau dès le réveil", "Commencez votre journée avec un verre d'eau pour hydrater votre corps après le sommeil.", TipType.MORNING, R.drawable.ic_sunrise),
-            Tip("Remplacez les sodas par de l'eau", "Choisissez l'eau au lieu des boissons sucrées pour une meilleure hydratation.", TipType.SUBSTITUTION, R.drawable.ic_replace),
-            Tip("Surveillez la couleur de votre urine", "Une urine jaune pâle indique une bonne hydratation, jaune foncé signifie que vous devez boire plus.", TipType.HEALTH, R.drawable.ic_health),
-            Tip("Buvez plus par temps chaud", "Augmentez votre consommation d'eau quand il fait chaud ou quand vous faites de l'exercice.", TipType.WEATHER, R.drawable.ic_thermometer)
+            Tip("Buvez un verre d'eau avant chaque repas", "Recommandé par les nutritionnistes pour améliorer la digestion.", TipType.NUTRITION, com.example.exam.R.drawable.ic_nutrition),
+            Tip("Gardez une bouteille d'eau à portée de main", "Ayez toujours une bouteille d'eau près de vous pour ne jamais oublier de boire.", TipType.PRACTICE, com.example.exam.R.drawable.ic_bottle),
+            Tip("Utilisez des applications de rappel", "Programmez des rappels pour vous rappeler de boire de l'eau régulièrement.", TipType.TECHNOLOGY, com.example.exam.R.drawable.ic_reminder),
+            Tip("Ajoutez des fruits à votre eau", "Infusez votre eau avec des citron, concombre ou menthe pour plus de goût.", TipType.RECIPE, com.example.exam.R.drawable.ic_fruit),
+            Tip("Buvez de l'eau dès le réveil", "Commencez votre journée avec un verre d'eau pour hydrater votre corps après le sommeil.", TipType.MORNING, com.example.exam.R.drawable.ic_sunrise),
+            Tip("Remplacez les sodas par de l'eau", "Choisissez l'eau au lieu des boissons sucrées pour une meilleure hydratation.", TipType.SUBSTITUTION, com.example.exam.R.drawable.ic_replace),
+            Tip("Surveillez la couleur de votre urine", "Une urine jaune pâle indique une bonne hydratation, jaune foncé signifie que vous devez boire plus.", TipType.HEALTH, com.example.exam.R.drawable.ic_health),
+            Tip("Buvez plus par temps chaud", "Augmentez votre consommation d'eau quand il fait chaud ou quand vous faites de l'exercice.", TipType.WEATHER, com.example.exam.R.drawable.ic_thermometer)
         )
         
         tipsAdapter.submitList(tips)
@@ -158,7 +159,7 @@ class TipsAdapter(private val onTipClick: (Tip) -> Unit) : androidx.recyclerview
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TipViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tip, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(com.example.exam.R.layout.item_tip, parent, false)
         return TipViewHolder(view)
     }
     

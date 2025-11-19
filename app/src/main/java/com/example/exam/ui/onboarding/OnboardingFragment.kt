@@ -1,11 +1,11 @@
-package com.waterly.ui.onboarding
+package com.example.exam.ui.onboarding
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.waterly.databinding.FragmentOnboardingBinding
+import com.example.exam.databinding.FragmentOnboardingBinding
 
 class OnboardingFragment : Fragment() {
     
@@ -15,21 +15,18 @@ class OnboardingFragment : Fragment() {
     private var title: String = ""
     private var description: String = ""
     private var imageResId: Int = 0
-    private var backgroundColor: Int = 0
     
     companion object {
         private const val ARG_TITLE = "title"
         private const val ARG_DESCRIPTION = "description"
         private const val ARG_IMAGE_RES_ID = "image_res_id"
-        private const val ARG_BACKGROUND_COLOR = "background_color"
         
-        fun newInstance(title: String, description: String, imageResId: Int, backgroundColor: Int): OnboardingFragment {
+        fun newInstance(title: String, description: String, imageResId: Int): OnboardingFragment {
             return OnboardingFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_TITLE, title)
                     putString(ARG_DESCRIPTION, description)
                     putInt(ARG_IMAGE_RES_ID, imageResId)
-                    putInt(ARG_BACKGROUND_COLOR, backgroundColor)
                 }
             }
         }
@@ -41,7 +38,6 @@ class OnboardingFragment : Fragment() {
             title = it.getString(ARG_TITLE) ?: ""
             description = it.getString(ARG_DESCRIPTION) ?: ""
             imageResId = it.getInt(ARG_IMAGE_RES_ID, 0)
-            backgroundColor = it.getInt(ARG_BACKGROUND_COLOR, 0)
         }
     }
     
@@ -52,11 +48,6 @@ class OnboardingFragment : Fragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        // Set background color
-        if (backgroundColor != 0) {
-            binding.root.setBackgroundResource(backgroundColor)
-        }
         
         // Set content
         binding.tvTitle.text = title

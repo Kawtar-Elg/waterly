@@ -1,4 +1,4 @@
-package com.waterly.data.dao
+package com.example.exam.data.dao
 
 import androidx.room.*
 import com.example.exam.data.entity.User

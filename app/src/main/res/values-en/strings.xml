@@ -1,17 +1,6 @@
 <resources>
     <string name="app_name">Waterly</string>
     <string name="splash_subtitle">Stay hydrated, stay healthy</string>
-    
-    <!-- Onboarding Strings -->
-    <string name="onboarding_title_1">Welcome to\nwaterly !</string>
-    <string name="onboarding_desc_1">Stay hydrated and never miss\na sip !</string>
-    <string name="onboarding_title_2">Why Stay\nHydrated?</string>
-    <string name="onboarding_desc_2">Water boosts your energy, improves skin,\nand keeps your mind fresh!</string>
-    <string name="onboarding_title_3">Reminders\nOn?</string>
-    <string name="onboarding_desc_3">Allow notifications to get your daily\nwater intake reminders</string>
-    <string name="lets_go">Let\'s Go !</string>
-    <string name="skip">Skip</string>
-    <string name="next">→</string>
     <string name="app_logo">App logo</string>
     <string name="onboarding_image">Onboarding image</string>
 
@@ -38,7 +27,7 @@
     <string name="ml_500">500ml</string>
     <string name="ml_750">750ml</string>
     <string name="liter_1">1L</string>
-    
+
     <!-- Goals Strings -->
     <string name="goals">Goals</string>
     <string name="current_goal">Current Goal</string>
@@ -94,7 +83,4 @@
     <string name="language_english">English</string>
     <string name="language_french">Français</string>
     <string name="language_arabic">العربية</string>
-    
-    <!-- Onboarding Page Curl -->
-    <string name="page_curl">Page curl</string>
 </resources>

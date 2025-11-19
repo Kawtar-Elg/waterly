@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dev.sweep.assistant.components.SweepConfig">
+    <option name="autoApprovedTools">
+      <set>
+        <option value="list_files" />
+        <option value="read_file" />
+        <option value="search_files" />
+        <option value="find_usages" />
+        <option value="get_errors" />
+      </set>
+    </option>
+    <option name="byokProviderConfigs">
+      <map>
+        <entry key="z-ai">
+          <value>
+            <BYOKProviderConfig>
+              <option name="selectedModel" value="z-ai/glm-4.6" />
+            </BYOKProviderConfig>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

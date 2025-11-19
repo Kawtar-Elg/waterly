@@ -2,8 +2,8 @@ package com.example.exam
 
 import android.app.Application
 import androidx.room.Room
-import com.waterly.data.database.AppDatabase
-import com.waterly.workers.WaterReminderWorker
+import com.example.exam.data.database.AppDatabase
+import com.example.exam.workers.WaterReminderWorker
 import kotlin.getValue
 
 class WaterlyApp : Application() {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Water drop character body -->
+    <path
+        android:fillColor="#4DD0E1"
+        android:pathData="M100,40 Q70,80 70,120 Q70,160 100,180 Q130,160 130,120 Q130,80 100,40 Z"/>
+    
+    <!-- Face - Left Eye -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M85,110 m-5,0 a5,5 0,1,1 10,0 a5,5 0,1,1 -10,0"/>
+    
+    <!-- Face - Right Eye -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M115,110 m-5,0 a5,5 0,1,1 10,0 a5,5 0,1,1 -10,0"/>
+    
+    <!-- Face - Smile -->
+    <path
+        android:strokeColor="#1A237E"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M85,130 Q100,140 115,130"/>
+    
+    <!-- Arms -->
+    <path
+        android:strokeColor="#4DD0E1"
+        android:strokeWidth="8"
+        android:strokeLineCap="round"
+        android:pathData="M70,100 L50,90"/>
+    <path
+        android:strokeColor="#4DD0E1"
+        android:strokeWidth="8"
+        android:strokeLineCap="round"
+        android:pathData="M130,100 L150,90"/>
+    
+    <!-- Legs -->
+    <path
+        android:strokeColor="#4DD0E1"
+        android:strokeWidth="8"
+        android:strokeLineCap="round"
+        android:pathData="M85,175 L75,195"/>
+    <path
+        android:strokeColor="#4DD0E1"
+        android:strokeWidth="8"
+        android:strokeLineCap="round"
+        android:pathData="M115,175 L125,195"/>
+</vector>

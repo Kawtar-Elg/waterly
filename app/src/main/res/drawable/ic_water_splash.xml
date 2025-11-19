@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="300dp"
+    android:viewportWidth="300"
+    android:viewportHeight="300">
+    
+    <!-- Water splash circle -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#4DD0E1"
+        android:strokeWidth="4"
+        android:pathData="M150,150 m-100,0 a100,100 0,1,1 200,0 a100,100 0,1,1 -200,0"/>
+    
+    <!-- Water drops around -->
+    <path android:fillColor="#4DD0E1" android:pathData="M150,40 m-6,0 a6,6 0,1,1 12,0 a6,6 0,1,1 -12,0"/>
+    <path android:fillColor="#4DD0E1" android:pathData="M240,100 m-5,0 a5,5 0,1,1 10,0 a5,5 0,1,1 -10,0"/>
+    <path android:fillColor="#4DD0E1" android:pathData="M260,150 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"/>
+    <path android:fillColor="#4DD0E1" android:pathData="M240,200 m-5,0 a5,5 0,1,1 10,0 a5,5 0,1,1 -10,0"/>
+    <path android:fillColor="#4DD0E1" android:pathData="M150,260 m-6,0 a6,6 0,1,1 12,0 a6,6 0,1,1 -12,0"/>
+    <path android:fillColor="#4DD0E1" android:pathData="M60,200 m-5,0 a5,5 0,1,1 10,0 a5,5 0,1,1 -10,0"/>
+    <path android:fillColor="#4DD0E1" android:pathData="M40,150 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"/>
+    <path android:fillColor="#4DD0E1" android:pathData="M60,100 m-5,0 a5,5 0,1,1 10,0 a5,5 0,1,1 -10,0"/>
+</vector>

@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.waterly.data.database.AppDatabase
-import com.waterly.ui.dashboard.DashboardFragment
-import com.waterly.ui.goals.GoalsFragment
-import com.waterly.ui.tips.TipsFragment
-import com.waterly.ui.account.AccountFragment
+import com.example.exam.data.database.AppDatabase
+import com.example.exam.ui.dashboard.DashboardFragment
+import com.example.exam.ui.goals.GoalsFragment
+import com.example.exam.ui.tips.TipsFragment
+import com.example.exam.ui.account.AccountFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private var currentUserId: Long = 0
 
     private lateinit var bottomNavigation: BottomNavigationView
-    private lateinit var fragmentContainerId: ConstraintLayout
+    private lateinit var fragmentContainerId: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

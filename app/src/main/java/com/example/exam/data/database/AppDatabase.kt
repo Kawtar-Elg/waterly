@@ -1,15 +1,15 @@
-package com.waterly.data.database
+package com.example.exam.data.database
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import android.content.Context
-import com.waterly.data.dao.UserDao
-import com.waterly.data.dao.WaterConsumptionDao
+import com.example.exam.data.dao.UserDao
+import com.example.exam.data.dao.WaterConsumptionDao
 import com.example.exam.data.entity.User
-import com.waterly.data.entity.WaterConsumption
-import com.waterly.utils.Converters
+import com.example.exam.data.entity.WaterConsumption
+import com.example.exam.utils.Converters
 
 @Database(
     entities = [User::class, WaterConsumption::class],

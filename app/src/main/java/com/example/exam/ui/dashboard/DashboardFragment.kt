@@ -1,4 +1,4 @@
-package com.waterly.ui.dashboard
+package com.example.exam.ui.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,9 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.example.exam.WaterlyApp
-import com.waterly.data.database.AppDatabase
-import com.waterly.data.entity.WaterConsumption
-import com.waterly.databinding.FragmentDashboardBinding
+import com.example.exam.data.database.AppDatabase
+import com.example.exam.data.entity.WaterConsumption
+import com.example.exam.databinding.FragmentDashboardBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,7 +35,7 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         // Get user ID from preferences
-        val prefs = requireActivity().getSharedPreferences("waterly_prefs", MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences("waterly_prefs", android.content.Context.MODE_PRIVATE)
         currentUserId = prefs.getLong("current_user_id", 0)
         
         database = (requireActivity().application as WaterlyApp).database
@@ -77,7 +77,9 @@ class DashboardFragment : Fragment() {
                 }
                 
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Erreur lors du chargement des données", Toast.LENGTH_SHORT).show()
+                if (isAdded && context != null) {
+                    Toast.makeText(requireContext(), "Erreur lors du chargement des données", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -106,7 +108,9 @@ class DashboardFragment : Fragment() {
                 setupWeeklyChart(weeklyConsumption, dayLabels)
                 
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Erreur lors du chargement du graphique", Toast.LENGTH_SHORT).show()
+                if (isAdded && context != null) {
+                    Toast.makeText(requireContext(), "Erreur lors du chargement du graphique", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -180,14 +184,18 @@ class DashboardFragment : Fragment() {
                 
                 database.waterConsumptionDao().insertConsumption(consumption)
                 
-                Toast.makeText(requireContext(), "${amount}L ajoutés!", Toast.LENGTH_SHORT).show()
-                
-                // Refresh data
-                loadTodayData()
-                loadWeeklyData()
+                if (isAdded && context != null) {
+                    Toast.makeText(requireContext(), "${amount}L ajoutés!", Toast.LENGTH_SHORT).show()
+
+                    // Refresh data
+                    loadTodayData()
+                    loadWeeklyData()
+                }
                 
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Erreur lors de l'ajout", Toast.LENGTH_SHORT).show()
+                if (isAdded && context != null) {
+                    Toast.makeText(requireContext(), "Erreur lors de l'ajout", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

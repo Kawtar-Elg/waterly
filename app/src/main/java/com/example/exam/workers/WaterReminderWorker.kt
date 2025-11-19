@@ -1,18 +1,24 @@
-package com.waterly.workers
+package com.example.exam.workers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.work.*
-import com.waterly.R
+import androidx.work.Constraints
+import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkerParameters
+import androidx.work.workDataOf
+import com.example.exam.R
 import java.util.concurrent.TimeUnit
 
 class WaterReminderWorker(
     context: Context,
-    params: WorkerParameters,
-    private val notificationManager: NotificationManager
+    params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -26,8 +32,9 @@ class WaterReminderWorker(
     }
 
     private fun showNotification(title: String, message: String) {
-        createNotificationChannel()
-        
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        createNotificationChannel(notificationManager)
+
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_water_drop)
             .setContentTitle(title)
@@ -39,7 +46,7 @@ class WaterReminderWorker(
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannel(notificationManager: NotificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
@@ -58,10 +65,8 @@ class WaterReminderWorker(
         private const val WORK_TAG = "water_reminder"
 
         fun scheduleReminders(context: Context) {
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            
             val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkConstraint.NOT_REQUIRED)
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
                 .build()
 
             // Schedule reminder every 2 hours during waking hours (8 AM - 10 PM)

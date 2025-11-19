@@ -1,4 +1,4 @@
-package com.waterly.utils
+package com.example.exam.utils
 
 import androidx.room.TypeConverter
 import java.text.SimpleDateFormat

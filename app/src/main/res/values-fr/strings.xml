@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">Waterly</string>
+    <string name="splash_subtitle">Restez hydraté, restez en bonne santé</string>
+    <string name="app_logo">Logo de l\'application</string>
+    <string name="onboarding_image">Image d\'introduction</string>
+
+    <!-- Auth Strings -->
+    <string name="login">Se connecter</string>
+    <string name="signup">Créer un compte</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="birthday">Date de naissance</string>
+    <string name="forgot_password">Mot de passe oublié?</string>
+    <string name="already_have_account">Déjà un compte ? Se connecter</string>
+    <string name="no_account">Pas de compte ? Créer un compte</string>
+
+    <!-- Dashboard Strings -->
+    <string name="dashboard">Tableau de bord</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="weekly_consumption">Consommation hebdomadaire</string>
+    <string name="add_water">Ajouter de l\'eau</string>
+    <string name="view_history">Voir l\'historique</string>
+    <string name="quick_actions">Actions rapides</string>
+    <string name="ml_250">250ml</string>
+    <string name="ml_500">500ml</string>
+    <string name="ml_750">750ml</string>
+    <string name="liter_1">1L</string>
+
+    <!-- Goals Strings -->
+    <string name="goals">Objectifs</string>
+    <string name="current_goal">Objectif actuel</string>
+    <string name="set_daily_goal">Définir un objectif quotidien</string>
+    <string name="goal_presets">Objectifs prédéfinis</string>
+    <string name="custom_goal">Objectif personnalisé</string>
+    <string name="save_goal">Sauvegarder l\'objectif</string>
+    <string name="goal_history">Historique des objectifs</string>
+    <string name="goal_achieved">Atteint</string>
+    <string name="goal_not_achieved">Non atteint</string>
+
+    <!-- Tips Strings -->
+    <string name="tips">Conseils d\'hydratation</string>
+    <string name="hydration_tips">Conseils d\'hydratation</string>
+    <string name="stay_hydrated">Restez hydraté avec ces conseils utiles</string>
+    <string name="share_tips">Partager les conseils</string>
+    <string name="watch_video">Voir une vidéo</string>
+    <string name="read_articles">Lire des articles</string>
+    <string name="all_tips">Tous les conseils</string>
+
+    <!-- Account Strings -->
+    <string name="account">Mon compte</string>
+    <string name="profile">Profil</string>
+    <string name="edit_profile">Modifier le profil</string>
+    <string name="account_info">Informations du compte</string>
+    <string name="settings">Paramètres</string>
+    <string name="change_password">Changer le mot de passe</string>
+    <string name="notifications">Notifications</string>
+    <string name="privacy">Confidentialité</string>
+    <string name="language">Langue</string>
+    <string name="logout">Se déconnecter</string>
+    <string name="delete_account">Supprimer le compte</string>
+    <string name="danger_zone">Zone dangereuse</string>
+
+    <!-- Common Strings -->
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="confirm">Confirmer</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="save">Sauvegarder</string>
+    <string name="edit">Modifier</string>
+    <string name="delete">Supprimer</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">Tableau de bord</string>
+    <string name="nav_goals">Objectifs</string>
+    <string name="nav_tips">Conseils</string>
+    <string name="nav_account">Compte</string>
+
+    <!-- Language Selection -->
+    <string name="select_language">Sélectionner la langue</string>
+    <string name="language_english">English</string>
+    <string name="language_french">Français</string>
+    <string name="language_arabic">العربية</string>
+</resources>

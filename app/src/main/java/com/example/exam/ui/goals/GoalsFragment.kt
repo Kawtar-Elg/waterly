@@ -1,4 +1,4 @@
-package com.waterly.ui.goals
+package com.example.exam.ui.goals
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.exam.R
 import com.example.exam.WaterlyApp
-import com.waterly.data.database.AppDatabase
+import com.example.exam.data.database.AppDatabase
 import com.example.exam.data.entity.User
-import com.waterly.databinding.FragmentGoalsBinding
+import com.example.exam.databinding.FragmentGoalsBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,7 +35,7 @@ class GoalsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         // Get user ID from preferences
-        val prefs = requireActivity().getSharedPreferences("waterly_prefs", MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences("waterly_prefs", android.content.Context.MODE_PRIVATE)
         currentUserId = prefs.getLong("current_user_id", 0)
         
         database = (requireActivity().application as WaterlyApp).database
@@ -229,7 +230,7 @@ class GoalHistoryAdapter(private val items: List<GoalHistoryItem>) : androidx.re
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_goal_history, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(com.example.exam.R.layout.item_goal_history, parent, false)
         return ViewHolder(view)
     }
     

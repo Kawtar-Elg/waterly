@@ -1,13 +1,13 @@
-package com.waterly.ui.onboarding
+package com.example.exam.ui.onboarding
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import com.waterly.databinding.ActivityOnboardingBinding
-import com.waterly.ui.auth.AuthActivity
-import com.waterly.data.adapter.OnboardingPagerAdapter
+import com.example.exam.databinding.ActivityOnboardingBinding
+import com.example.exam.ui.auth.AuthActivity
+import com.example.exam.data.adapter.OnboardingPagerAdapter
 
 class OnboardingActivity : AppCompatActivity() {
     
@@ -30,33 +30,32 @@ class OnboardingActivity : AppCompatActivity() {
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
         
+        // Setup dots indicator
         TabLayoutMediator(binding.tabLayoutOnboarding, binding.viewPagerOnboarding) { _, _ -> }.attach()
         
-        // Skip button
-        binding.btnSkip.setOnClickListener {
-            navigateToAuth()
+        // Next button click
+        binding.btnNext.setOnClickListener {
+            if (binding.viewPagerOnboarding.currentItem == 2) {
+                // Last page - navigate to auth
+                navigateToAuth()
+            } else {
+                // Go to next page
+                binding.viewPagerOnboarding.currentItem = binding.viewPagerOnboarding.currentItem + 1
+            }
         }
         
-        // Get Started button (only visible on last page)
+        // Update button text on page change
         binding.viewPagerOnboarding.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 
-                if (position == 2) { // Last page
-                    binding.btnSkip.text = "Commencez"
+                if (position == 2) {
+                    binding.btnNext.text = "Let's Go !"
                 } else {
-                    binding.btnSkip.text = "Passer"
+                    binding.btnNext.text = "→"
                 }
             }
         })
-        
-        binding.btnSkip.setOnClickListener {
-            if (binding.viewPagerOnboarding.currentItem == 2) {
-                navigateToAuth()
-            } else {
-                binding.viewPagerOnboarding.currentItem = binding.viewPagerOnboarding.currentItem + 1
-            }
-        }
     }
     
     private fun navigateToAuth() {

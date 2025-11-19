@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">Waterly</string>
+    <string name="splash_subtitle">ابق رطبًا، ابق بصحة جيدة</string>
+    <string name="app_logo">شعار التطبيق</string>
+    <string name="onboarding_image">صورة تمهيدية</string>
+
+    <!-- Auth Strings -->
+    <string name="login">تسجيل الدخول</string>
+    <string name="signup">إنشاء حساب</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="birthday">تاريخ الميلاد</string>
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="already_have_account">لديك حساب بالفعل؟ تسجيل الدخول</string>
+    <string name="no_account">ليس لديك حساب؟ إنشاء حساب</string>
+
+    <!-- Dashboard Strings -->
+    <string name="dashboard">لوحة التحكم</string>
+    <string name="today">اليوم</string>
+    <string name="weekly_consumption">الاستهلاك الأسبوعي</string>
+    <string name="add_water">إضافة ماء</string>
+    <string name="view_history">عرض السجل</string>
+    <string name="quick_actions">إجراءات سريعة</string>
+    <string name="ml_250">250 مل</string>
+    <string name="ml_500">500 مل</string>
+    <string name="ml_750">750 مل</string>
+    <string name="liter_1">1 لتر</string>
+
+    <!-- Goals Strings -->
+    <string name="goals">الأهداف</string>
+    <string name="current_goal">الهدف الحالي</string>
+    <string name="set_daily_goal">تحديد هدف يومي</string>
+    <string name="goal_presets">أهداف محددة مسبقًا</string>
+    <string name="custom_goal">هدف مخصص</string>
+    <string name="save_goal">حفظ الهدف</string>
+    <string name="goal_history">سجل الأهداف</string>
+    <string name="goal_achieved">تم تحقيقه</string>
+    <string name="goal_not_achieved">لم يتم تحقيقه</string>
+
+    <!-- Tips Strings -->
+    <string name="tips">نصائح الترطيب</string>
+    <string name="hydration_tips">نصائح الترطيب</string>
+    <string name="stay_hydrated">ابق رطبًا مع هذه النصائح المفيدة</string>
+    <string name="share_tips">مشاركة النصائح</string>
+    <string name="watch_video">مشاهدة فيديو</string>
+    <string name="read_articles">قراءة المقالات</string>
+    <string name="all_tips">جميع النصائح</string>
+
+    <!-- Account Strings -->
+    <string name="account">حسابي</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="account_info">معلومات الحساب</string>
+    <string name="settings">الإعدادات</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="privacy">الخصوصية</string>
+    <string name="language">اللغة</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="danger_zone">منطقة الخطر</string>
+
+    <!-- Common Strings -->
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="confirm">تأكيد</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="save">حفظ</string>
+    <string name="edit">تعديل</string>
+    <string name="delete">حذف</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">لوحة التحكم</string>
+    <string name="nav_goals">الأهداف</string>
+    <string name="nav_tips">النصائح</string>
+    <string name="nav_account">الحساب</string>
+
+    <!-- Language Selection -->
+    <string name="select_language">اختر اللغة</string>
+    <string name="language_english">English</string>
+    <string name="language_french">Français</string>
+    <string name="language_arabic">العربية</string>
+</resources>
