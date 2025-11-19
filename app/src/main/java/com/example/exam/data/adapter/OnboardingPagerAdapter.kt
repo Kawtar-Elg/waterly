@@ -6,29 +6,18 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.exam.R
 import com.example.exam.ui.onboarding.OnboardingFragment
 
+class OnboardingPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
-class OnboardingPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-    
-    override fun getItemCount(): Int = 3
-    
+    private val onboardingPages = listOf(
+        Triple("Welcome to\nwaterly !", "Stay hydrated and never miss\na sip !", R.drawable.image1ona1),
+        Triple("Track Your Water\nIntake", "Monitor your daily hydration\ngoals easily", R.drawable.image1ona1),
+        Triple("Get Reminders", "Never forget to drink water\nthroughout the day", R.drawable.image1ona1)
+    )
+
+    override fun getItemCount(): Int = onboardingPages.size
+
     override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> OnboardingFragment.newInstance(
-                title = "Welcome to\nwaterly !",
-                description = "Stay hydrated and never miss\na sip !",
-                imageResId = R.drawable.ic_water_character
-            )
-            1 -> OnboardingFragment.newInstance(
-                title = "Why Stay\nHydrated?",
-                description = "Water boosts your energy, improves skin,\nand keeps your mind fresh!",
-                imageResId = R.drawable.ic_water_character
-            )
-            2 -> OnboardingFragment.newInstance(
-                title = "Reminders\nOn?",
-                description = "Allow notifications to get your daily\nwater intake reminders",
-                imageResId = R.drawable.ic_water_character
-            )
-            else -> OnboardingFragment()
-        }
+        val (title, description, imageResId) = onboardingPages[position]
+        return OnboardingFragment.newInstance(title, description, imageResId)
     }
 }

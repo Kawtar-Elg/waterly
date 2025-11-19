@@ -5,53 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.splash.SplashActivity">
 
-    <!-- White background top -->
-    <View
+    <!-- Splash Video -->
+    <VideoView
+        android:id="@+id/videoView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#FFFFFF"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/blue_section"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Blue gradient background bottom -->
-    <View
-        android:id="@+id/blue_section"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_gradient_blue"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.5" />
-
-    <!-- Water splash circle decoration -->
-    <ImageView
-        android:id="@+id/ivSplash"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
-        android:src="@drawable/ic_water_splash"
-        android:contentDescription="@string/app_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- App Name inside splash -->
-    <TextView
-        android:id="@+id/tvAppName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="#1A237E"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-light"
-        app:layout_constraintBottom_toBottomOf="@id/ivSplash"
-        app:layout_constraintEnd_toEndOf="@id/ivSplash"
-        app:layout_constraintStart_toStartOf="@id/ivSplash"
-        app:layout_constraintTop_toTopOf="@id/ivSplash" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

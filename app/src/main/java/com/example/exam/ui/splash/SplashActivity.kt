@@ -1,18 +1,11 @@
 package com.example.exam.ui.splash
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.exam.R
-import com.example.exam.ui.auth.AuthActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SplashActivity : AppCompatActivity() {
 
@@ -20,60 +13,26 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Start splash animation
-        startSplashAnimation()
-    }
-
-    private fun startSplashAnimation() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val ivSplash = findViewById<ImageView>(R.id.ivSplash)
-            val tvAppName = findViewById<TextView>(R.id.tvAppName)
-            
-            // Set initial states
-            ivSplash.alpha = 0f
-            ivSplash.scaleX = 0.8f
-            ivSplash.scaleY = 0.8f
-            
-            tvAppName.alpha = 0f
-            tvAppName.scaleX = 0.8f
-            tvAppName.scaleY = 0.8f
-
-            delay(300)
-
-            // Splash circle animation
-            ivSplash.animate()
-                .alpha(1f)
-                .scaleX(1f)
-                .scaleY(1f)
-                .setDuration(1000)
-                .start()
-
-            // App name animation
-            tvAppName.animate()
-                .alpha(1f)
-                .scaleX(1f)
-                .scaleY(1f)
-                .setDuration(800)
-                .setStartDelay(300)
-                .start()
-
-            delay(2500)
-
-            // Navigate to next screen
-            checkUserSession()
+        val videoView = findViewById<VideoView>(R.id.videoView)
+        val uri = Uri.parse("android.resource://$packageName/${R.raw.splashscreen}")
+        
+        videoView.setVideoURI(uri)
+        videoView.setOnPreparedListener { mediaPlayer ->
+            mediaPlayer.isLooping = false
+            videoView.start()
+        }
+        videoView.setOnCompletionListener {
+            navigateToNext()
+        }
+        videoView.setOnErrorListener { _, _, _ ->
+            navigateToNext()
+            true
         }
     }
 
-    private suspend fun checkUserSession() {
-        withContext(Dispatchers.IO) {
-            delay(500)
-
-            withContext(Dispatchers.Main) {
-                // Navigate to onboarding
-                val intent = Intent(this@SplashActivity, com.example.exam.ui.onboarding.OnboardingActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
+    private fun navigateToNext() {
+        val intent = Intent(this@SplashActivity, com.example.exam.ui.onboarding.OnboardingActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
