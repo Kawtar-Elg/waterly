@@ -5,29 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- White background top section -->
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#FFFFFF"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/blue_bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Blue gradient background bottom section -->
+    <!-- Blue gradient background - full page -->
     <View
         android:id="@+id/blue_bg"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_gradient_blue"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.45"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.55" />
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_blue" />
 
     <!-- Water Character -->
     <ImageView
@@ -52,7 +35,7 @@
         android:text="Welcome to\nwaterly !"
         android:textAlignment="center"
         android:textColor="#1A237E"
-        android:textSize="36sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         android:lineSpacingExtra="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,12 +64,6 @@
         app:layout_constraintVertical_bias="0" />
 
     <!-- Page curl effect -->
-    <ImageView
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:src="@drawable/corner"
-        android:contentDescription="Page curl"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

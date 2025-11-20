@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
+
 import com.example.exam.WaterlyApp
 import com.example.exam.data.database.AppDatabase
 import com.example.exam.data.entity.WaterConsumption
@@ -47,9 +45,16 @@ class DashboardFragment : Fragment() {
     }
     
     private fun setupViews() {
-        // Progress bar setup
-        binding.progressToday.max = 2000 // 2 liters in ml
-        binding.progressToday.progress = 0
+        // Tab buttons
+        binding.btnConsumption.setOnClickListener {
+            Toast.makeText(requireContext(), "Consommation", Toast.LENGTH_SHORT).show()
+        }
+        binding.btnGraph.setOnClickListener {
+            Toast.makeText(requireContext(), "Graphique", Toast.LENGTH_SHORT).show()
+        }
+        binding.btnAdvice.setOnClickListener {
+            Toast.makeText(requireContext(), "Conseils", Toast.LENGTH_SHORT).show()
+        }
     }
     
     private fun loadTodayData() {
@@ -58,22 +63,28 @@ class DashboardFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val totalConsumption = database.waterConsumptionDao().getTotalConsumptionByDate(currentUserId, today)
-                val totalConsumptionMl = (totalConsumption * 1000).toInt()
+                val goalLiters = 2.0
+                val percentage = ((totalConsumption / goalLiters) * 100).toInt().coerceAtMost(100)
+                val remaining = (goalLiters - totalConsumption).coerceAtLeast(0.0)
                 
-                binding.tvTodayAmount.text = "${String.format("%.1f", totalConsumption)} L"
-                binding.progressToday.progress = totalConsumptionMl.coerceAtMost(2000)
-                binding.tvProgressPercentage.text = "${((totalConsumption / 2.0) * 100).toInt()}%"
+                // Update daily goal
+                binding.tvDailyGoal.text = "${String.format("%.1f", totalConsumption)} Litres"
                 
-                // Update progress bar color based on achievement
-                val progress = (totalConsumption / 2.0) * 100
-                if (progress >= 100) {
-                    binding.progressToday.progressTintList = android.content.res.ColorStateList.valueOf(
-                        android.graphics.Color.parseColor("#7ED321") // Green for goal achieved
-                    )
-                } else {
-                    binding.progressToday.progressTintList = android.content.res.ColorStateList.valueOf(
-                        android.graphics.Color.parseColor("#4A90E2") // Blue for in progress
-                    )
+                // Update consumption card
+                binding.tvConsumptionAmount.text = "${String.format("%.1f", totalConsumption)}L $percentage%"
+                
+                // Update circular progress
+                binding.circularProgress.progress = percentage
+                binding.tvCircularPercentage.text = "$percentage%"
+                
+                // Update water level in bottle
+                binding.bottleContainer.post {
+                    val bottleHeight = binding.bottleContainer.height
+                    if (bottleHeight > 0) {
+                        val waterHeight = (bottleHeight * percentage / 100)
+                        binding.waterLevel.layoutParams.height = waterHeight
+                        binding.waterLevel.requestLayout()
+                    }
                 }
                 
             } catch (e: Exception) {
@@ -85,77 +96,33 @@ class DashboardFragment : Fragment() {
     }
     
     private fun loadWeeklyData() {
-        val endDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        val startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(Date().time - 6 * 24 * 60 * 60 * 1000L))
-        
-        lifecycleScope.launch {
-            try {
-                // Get weekly consumption data
-                val weeklyConsumption = mutableListOf<BarEntry>()
-                val dayLabels = mutableListOf<String>()
-                
-                for (i in 0..6) {
-                    val date = Date(Date().time - (6 - i) * 24 * 60 * 60 * 1000L)
-                    val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
-                    val dayStr = SimpleDateFormat("EEE", Locale.getDefault()).format(date)
-                    
-                    val consumption = database.waterConsumptionDao().getTotalConsumptionByDate(currentUserId, dateStr)
-                    
-                    weeklyConsumption.add(BarEntry(i.toFloat(), consumption.toFloat()))
-                    dayLabels.add(dayStr.substring(0, 3)) // Short day name
-                }
-                
-                setupWeeklyChart(weeklyConsumption, dayLabels)
-                
-            } catch (e: Exception) {
-                if (isAdded && context != null) {
-                    Toast.makeText(requireContext(), "Erreur lors du chargement du graphique", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-    
-    private fun setupWeeklyChart(data: List<BarEntry>, labels: List<String>) {
-        val dataSet = BarDataSet(data, "Consommation d'eau (L)")
-        dataSet.color = android.graphics.Color.parseColor("#4A90E2")
-        dataSet.setDrawValues(false)
-        
-        val barData = BarData(dataSet)
-        barData.barWidth = 0.7f
-        
-        binding.chartWeekly.apply {
-            this.data = barData
-            description.isEnabled = false
-            legend.isEnabled = false
-            setDrawGridBackground(false)
-            setDrawBorders(false)
-            
-            xAxis.apply {
-                valueFormatter = com.github.mikephil.charting.formatter.IndexAxisValueFormatter(labels)
-                position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
-                granularity = 1f
-                isGranularityEnabled = true
-                setDrawGridLines(false)
-                textColor = android.graphics.Color.parseColor("#666666")
-            }
-            
-            axisLeft.apply {
-                axisMinimum = 0f
-                axisMaximum = 3f
-                setDrawGridLines(true)
-                setDrawAxisLine(false)
-                textColor = android.graphics.Color.parseColor("#666666")
-            }
-            
-            axisRight.isEnabled = false
-            
-            invalidate() // Refresh chart
-        }
+        // Weekly data loading removed for simplified dashboard
     }
     
     private fun setupFloatingActionButton() {
-        binding.fabAddWater.setOnClickListener {
-            showAddWaterDialog()
+        var dX = 0f
+        var dY = 0f
+        var lastAction = 0
+
+        binding.fabAddWater.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                android.view.MotionEvent.ACTION_DOWN -> {
+                    dX = view.x - event.rawX
+                    dY = view.y - event.rawY
+                    lastAction = android.view.MotionEvent.ACTION_DOWN
+                }
+                android.view.MotionEvent.ACTION_MOVE -> {
+                    view.x = event.rawX + dX
+                    view.y = event.rawY + dY
+                    lastAction = android.view.MotionEvent.ACTION_MOVE
+                }
+                android.view.MotionEvent.ACTION_UP -> {
+                    if (lastAction == android.view.MotionEvent.ACTION_DOWN) {
+                        showAddWaterDialog()
+                    }
+                }
+            }
+            true
         }
     }
     
@@ -186,10 +153,7 @@ class DashboardFragment : Fragment() {
                 
                 if (isAdded && context != null) {
                     Toast.makeText(requireContext(), "${amount}L ajoutés!", Toast.LENGTH_SHORT).show()
-
-                    // Refresh data
                     loadTodayData()
-                    loadWeeklyData()
                 }
                 
             } catch (e: Exception) {

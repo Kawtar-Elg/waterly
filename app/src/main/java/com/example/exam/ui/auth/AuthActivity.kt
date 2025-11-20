@@ -38,7 +38,7 @@ class AuthActivity : AppCompatActivity() {
     private fun setupListeners() {
         // Toggle between login and signup
         binding.tvToggleMode.setOnClickListener {
-            if (binding.clLoginView.visibility == View.VISIBLE) {
+            if (binding.tilEmail.visibility == View.VISIBLE) {
                 showSignupView()
             } else {
                 showLoginView()
@@ -57,17 +57,23 @@ class AuthActivity : AppCompatActivity() {
     }
     
     private fun showLoginView() {
-        binding.clLoginView.visibility = View.VISIBLE
+        binding.tilEmail.visibility = View.VISIBLE
+        binding.tilPassword.visibility = View.VISIBLE
+        binding.cbPrivacy.visibility = View.VISIBLE
+        binding.btnLogin.visibility = View.VISIBLE
+        binding.btnGoogle.visibility = View.VISIBLE
         binding.clSignupView.visibility = View.GONE
-        binding.tvToggleMode.text = "Créer un compte"
-        binding.tvTitle.text = "Connexion"
+        binding.tvToggleMode.text = "Don't have an account ? Sign up"
     }
     
     private fun showSignupView() {
-        binding.clLoginView.visibility = View.GONE
+        binding.tilEmail.visibility = View.GONE
+        binding.tilPassword.visibility = View.GONE
+        binding.cbPrivacy.visibility = View.GONE
+        binding.btnLogin.visibility = View.GONE
+        binding.btnGoogle.visibility = View.GONE
         binding.clSignupView.visibility = View.VISIBLE
-        binding.tvToggleMode.text = "Déjà un compte ? Se connecter"
-        binding.tvTitle.text = "Inscription"
+        binding.tvToggleMode.text = "Already have an account ? Log in"
     }
 
     private fun performLogin() {

@@ -10,8 +10,8 @@ class OnboardingPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(
 
     private val onboardingPages = listOf(
         Triple("Welcome to\nwaterly !", "Stay hydrated and never miss\na sip !", R.drawable.image1ona1),
-        Triple("Track Your Water\nIntake", "Monitor your daily hydration\ngoals easily", R.drawable.image1ona1),
-        Triple("Get Reminders", "Never forget to drink water\nthroughout the day", R.drawable.image1ona1)
+        Triple("Track Your Water\nIntake", "Monitor your daily hydration\ngoals easily", R.drawable.ona3),
+        Triple("Get Reminders", "Never forget to drink water\nthroughout the day", R.drawable.ona2)
     )
 
     override fun getItemCount(): Int = onboardingPages.size

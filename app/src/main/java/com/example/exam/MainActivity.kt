@@ -1,54 +1,47 @@
 package com.example.exam
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import android.widget.FrameLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.example.exam.data.database.AppDatabase
 import com.example.exam.ui.dashboard.DashboardFragment
-import com.example.exam.ui.goals.GoalsFragment
-import com.example.exam.ui.tips.TipsFragment
-import com.example.exam.ui.account.AccountFragment
+import com.example.exam.ui.auth.AuthActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var database: AppDatabase
     private var currentUserId: Long = 0
-
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var bottomNavigation: BottomNavigationView
-    private lateinit var fragmentContainerId: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) // XML layout reference
+        setContentView(R.layout.activity_main)
 
-        // Initialize views using findViewById
-        bottomNavigation = findViewById(R.id.bottom_navigation)
-        fragmentContainerId = findViewById(R.id.fragment_container)
-
-        // Initialize database
         database = (application as WaterlyApp).database
-
-        // Get current user ID from shared preferences
         val prefs = getSharedPreferences("waterly_prefs", MODE_PRIVATE)
         currentUserId = prefs.getLong("current_user_id", 0)
 
         if (currentUserId == 0L) {
-            // No user logged in, redirect to auth
             finish()
             return
         }
 
         setupToolbar()
+        setupDrawer()
         setupBottomNavigation()
         loadInitialFragment()
     }
@@ -56,30 +49,39 @@ class MainActivity : AppCompatActivity() {
     private fun setupToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Tableau de bord"
+        supportActionBar?.title = ""
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setupDrawer() {
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        navView.setNavigationItemSelectedListener(this)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
     private fun setupBottomNavigation() {
+        bottomNavigation = findViewById(R.id.bottom_navigation)
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_dashboard -> {
                     replaceFragment(DashboardFragment())
-                    supportActionBar?.title = "Tableau de bord"
                     true
                 }
-                R.id.nav_goals -> {
-                    replaceFragment(GoalsFragment())
-                    supportActionBar?.title = "Objectifs"
+                R.id.nav_notifications -> {
+                    Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.nav_tips -> {
-                    replaceFragment(TipsFragment())
-                    supportActionBar?.title = "Conseils d'hydratation"
-                    true
-                }
-                R.id.nav_account -> {
-                    replaceFragment(AccountFragment())
-                    supportActionBar?.title = "Mon compte"
+                R.id.nav_settings -> {
+                    Toast.makeText(this, "Paramètres", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -97,18 +99,28 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Mon profile", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_language -> {
+                showLanguageDialog()
+            }
+            R.id.nav_logout -> {
+                logout()
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_language -> {
-                showLanguageDialog()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
         }
     }
 
@@ -152,7 +164,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         Toast.makeText(this, "Langue changée", Toast.LENGTH_SHORT).show()
-
         recreate()
+    }
+
+    private fun logout() {
+        AlertDialog.Builder(this)
+            .setTitle("Déconnexion")
+            .setMessage("Voulez-vous vraiment vous déconnecter ?")
+            .setPositiveButton("Oui") { _, _ ->
+                val prefs = getSharedPreferences("waterly_prefs", MODE_PRIVATE)
+                prefs.edit().remove("current_user_id").apply()
+                startActivity(Intent(this, AuthActivity::class.java))
+                finish()
+            }
+            .setNegativeButton("Non", null)
+            .show()
     }
 }
