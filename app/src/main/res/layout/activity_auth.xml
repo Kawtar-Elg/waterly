@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/bg_gradient_blue"
     tools:context=".ui.auth.AuthActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@android:color/transparent"
         android:padding="24dp">
 
         <ImageView
@@ -71,7 +71,7 @@
             app:boxCornerRadiusTopEnd="25dp"
             app:boxCornerRadiusBottomStart="25dp"
             app:boxCornerRadiusBottomEnd="25dp"
-            app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+            app:startIconDrawable="@drawable/ic_lock_idle_lock"
             app:startIconTint="#000000"
             app:endIconMode="password_toggle"
             app:layout_constraintTop_toBottomOf="@id/til_email">
@@ -121,7 +121,7 @@
             android:text="Continue with Google"
             android:textColor="#000000"
             android:textSize="14sp"
-            android:drawableStart="@android:drawable/ic_menu_search"
+            android:drawableStart="@drawable/ic_menu_search"
             android:drawablePadding="8dp"
             app:cornerRadius="28dp"
             app:strokeColor="#E0E0E0"
@@ -147,7 +147,7 @@
                 app:boxCornerRadiusTopEnd="25dp"
                 app:boxCornerRadiusBottomStart="25dp"
                 app:boxCornerRadiusBottomEnd="25dp"
-                app:startIconDrawable="@android:drawable/ic_menu_myplaces"
+                app:startIconDrawable="@drawable/ic_user"
                 app:startIconTint="#000000"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -171,7 +171,7 @@
                 app:boxCornerRadiusTopEnd="25dp"
                 app:boxCornerRadiusBottomStart="25dp"
                 app:boxCornerRadiusBottomEnd="25dp"
-                app:startIconDrawable="@android:drawable/ic_dialog_email"
+                app:startIconDrawable="@drawable/ic_dialog_email"
                 app:startIconTint="#000000"
                 app:layout_constraintTop_toBottomOf="@id/til_username">
 
@@ -245,7 +245,7 @@
                 app:boxCornerRadiusTopEnd="25dp"
                 app:boxCornerRadiusBottomStart="25dp"
                 app:boxCornerRadiusBottomEnd="25dp"
-                app:startIconDrawable="@android:drawable/ic_menu_my_calendar"
+                app:startIconDrawable="@drawable/ic_menu_my_calendar"
                 app:startIconTint="#000000"
                 app:layout_constraintTop_toBottomOf="@id/til_password2">
 
@@ -274,21 +274,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_birthday" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btn_toggle_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="32dp"
+                android:text="Already have an account? Log in"
+                android:textColor="#1A237E"
+                android:textSize="14sp"
+                android:backgroundTint="@android:color/transparent"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_signup" />
 
-        <TextView
-            android:id="@+id/tv_toggle_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="48dp"
-            android:text="Don't have an account ? Sign up"
-            android:textColor="#1A237E"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_google" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

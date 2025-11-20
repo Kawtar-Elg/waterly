@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.exam.R
 import com.example.exam.data.adapter.OnboardingPagerAdapter
-import com.example.exam.ui.auth.AuthActivity
+import com.example.exam.ui.auth.AuthChoiceActivity
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -33,7 +33,7 @@ class OnboardingActivity : AppCompatActivity() {
                 .putBoolean("onboarding_completed", true)
                 .apply()
             
-            startActivity(Intent(this, AuthActivity::class.java))
+            startActivity(Intent(this, AuthChoiceActivity::class.java))
             finish()
         }
     }

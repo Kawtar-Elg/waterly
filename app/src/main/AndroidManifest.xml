@@ -30,6 +30,11 @@
             android:theme="@style/Theme.Waterly.NoActionBar" />
 
         <activity
+            android:name=".ui.auth.AuthChoiceActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Waterly.NoActionBar" />
+
+        <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="false"
             android:theme="@style/Theme.Waterly.NoActionBar" />

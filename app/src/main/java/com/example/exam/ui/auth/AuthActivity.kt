@@ -26,23 +26,29 @@ class AuthActivity : AppCompatActivity() {
         
         database = (application as WaterlyApp).database
         
-        setupViews()
+        val mode = intent.getStringExtra("mode") ?: "login"
+        
+        setupViews(mode)
         setupListeners()
     }
     
-    private fun setupViews() {
-        // Set initial state to login
-        showLoginView()
+    private fun setupViews(mode: String) {
+        if (mode == "signup") {
+            showSignupView()
+        } else {
+            showLoginView()
+        }
     }
     
     private fun setupListeners() {
-        // Toggle between login and signup
-        binding.tvToggleMode.setOnClickListener {
-            if (binding.tilEmail.visibility == View.VISIBLE) {
-                showSignupView()
-            } else {
-                showLoginView()
-            }
+        // Back button
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
+        
+        // Toggle to login from signup
+        binding.btnToggleMode.setOnClickListener {
+            showLoginView()
         }
         
         // Login button
@@ -63,7 +69,6 @@ class AuthActivity : AppCompatActivity() {
         binding.btnLogin.visibility = View.VISIBLE
         binding.btnGoogle.visibility = View.VISIBLE
         binding.clSignupView.visibility = View.GONE
-        binding.tvToggleMode.text = "Don't have an account ? Sign up"
     }
     
     private fun showSignupView() {
@@ -73,7 +78,6 @@ class AuthActivity : AppCompatActivity() {
         binding.btnLogin.visibility = View.GONE
         binding.btnGoogle.visibility = View.GONE
         binding.clSignupView.visibility = View.VISIBLE
-        binding.tvToggleMode.text = "Already have an account ? Log in"
     }
 
     private fun performLogin() {
