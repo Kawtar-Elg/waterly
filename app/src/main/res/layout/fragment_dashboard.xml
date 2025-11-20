@@ -19,13 +19,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#B3E5FC">
+            android:background="@drawable/bg_gradient_blue">
 
             <!-- Water Corner Image -->
             <ImageView
                 android:id="@+id/iv_water_corner"
                 android:layout_width="230dp"
-                android:layout_height="190dp"
+                android:layout_height="230dp"
                 android:src="@drawable/watercorner"
                 android:scaleType="fitEnd"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,11 +39,11 @@
                 android:text="2 Litres"
                 android:textColor="#1A237E"
                 android:textSize="48sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/amita_bold"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
                 android:id="@+id/tv_today_label"
@@ -54,7 +54,7 @@
                 android:textSize="16sp"
                 android:layout_marginStart="24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_daily_goal" />
+                app:layout_constraintBottom_toTopOf="@id/tv_daily_goal" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -151,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="80dp">
+            android:paddingBottom="120dp">
 
             <!-- Bottle Visualization -->
             <androidx.cardview.widget.CardView
@@ -159,21 +159,19 @@
                 android:layout_width="0dp"
                 android:layout_height="400dp"
                 android:layout_marginEnd="8dp"
-
-
-
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#0E1F3D"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/card_stats"
-                >
+                app:layout_constraintEnd_toStartOf="@id/card_stats">
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#0E1F3D"
-                    >
+                    android:background="#0E1F3D">
 
-                    <!-- Bottle Image -->
+                    <!-- Bottle Background Image -->
                     <ImageView
                         android:id="@+id/iv_bottle"
                         android:layout_width="match_parent"
@@ -181,24 +179,31 @@
                         android:src="@drawable/bottle"
                         android:scaleType="fitCenter" />
 
-                    <!-- Bottle Container for Water Level -->
-                    <FrameLayout
-                        android:id="@+id/bottle_container"
-                        android:layout_width="120dp"
-                        android:layout_height="280dp"
-                        android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginBottom="40dp">
+                    <!-- Lottie Animation Bottle -->
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lottie_bottle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        app:lottie_rawRes="@raw/animationbottle"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        android:layout_marginBottom="10dp"/>
 
-                        <!-- Water Level -->
-                        <View
-                            android:id="@+id/water_level"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_gravity="bottom"
-                            android:background="#4DD0E1"
-                            android:alpha="0.6" />
-
-                    </FrameLayout>
+                    <!-- Water Percentage Text -->
+                    <TextView
+                        android:id="@+id/tv_bottle_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="0%"
+                        android:textColor="#FFFFFF"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:shadowColor="#000000"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4" />
 
                 </FrameLayout>
 
@@ -317,34 +322,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#263238"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
                 app:layout_constraintTop_toBottomOf="@id/card_bottle">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="24dp"
+                    android:background="#E3F2FD">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="L'objectif a été atteint !"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:drawableStart="@drawable/ic_goal"
-                        android:drawablePadding="8dp" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bon travail !\nTu as atteint 70 % de\nl'objectif d'aujourd'hui."
-                        android:textColor="#B0BEC5"
-                        android:textSize="14sp"
-                        android:layout_marginTop="8dp" />
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_goal"
+                            android:padding="8dp"
+                            android:background="@drawable/bg_button_rounded"
+                            android:backgroundTint="#4DD0E1" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="L'objectif a été atteint !"
+                                android:textColor="#1A237E"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/amita_bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bon travail ! Tu as atteint 70 % de l'objectif d'aujourd'hui."
+                                android:textColor="#1565C0"
+                                android:textSize="14sp"
+                                android:layout_marginTop="4dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -355,14 +383,17 @@
     </ScrollView>
 
     <!-- Floating Action Button -->
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_water"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:src="@drawable/bottonflottonte"
-        android:scaleType="fitCenter"
-        android:clickable="true"
-        android:focusable="true"
+        android:contentDescription="Add Water"
+        app:fabSize="normal"
+        app:tint="@null"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

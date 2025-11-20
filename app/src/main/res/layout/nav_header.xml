@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#0E1F3D">
+    android:background="@android:color/transparent">
 
     <ImageView
         android:layout_width="64dp"

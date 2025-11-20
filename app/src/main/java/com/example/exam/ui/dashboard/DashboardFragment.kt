@@ -1,5 +1,6 @@
 package com.example.exam.ui.dashboard
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.model.KeyPath
+import com.example.exam.R
 import com.example.exam.WaterlyApp
 import com.example.exam.data.database.AppDatabase
 import com.example.exam.data.entity.WaterConsumption
@@ -45,6 +48,16 @@ class DashboardFragment : Fragment() {
     }
     
     private fun setupViews() {
+        // Setup Lottie animation
+        try {
+            binding.lottieBottle.setAnimation(R.raw.animationbottle)
+            binding.lottieBottle.repeatCount = ValueAnimator.INFINITE
+            binding.lottieBottle.loop(true)
+            binding.lottieBottle.playAnimation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        
         // Tab buttons
         binding.btnConsumption.setOnClickListener {
             Toast.makeText(requireContext(), "Consommation", Toast.LENGTH_SHORT).show()
@@ -77,15 +90,12 @@ class DashboardFragment : Fragment() {
                 binding.circularProgress.progress = percentage
                 binding.tvCircularPercentage.text = "$percentage%"
                 
-                // Update water level in bottle
-                binding.bottleContainer.post {
-                    val bottleHeight = binding.bottleContainer.height
-                    if (bottleHeight > 0) {
-                        val waterHeight = (bottleHeight * percentage / 100)
-                        binding.waterLevel.layoutParams.height = waterHeight
-                        binding.waterLevel.requestLayout()
-                    }
-                }
+                // Update bottle percentage text
+                binding.tvBottlePercentage.text = "$percentage%"
+                
+                // Update Lottie animation progress based on percentage
+                val progress = percentage / 100f
+                binding.lottieBottle.progress = progress
                 
             } catch (e: Exception) {
                 if (isAdded && context != null) {
