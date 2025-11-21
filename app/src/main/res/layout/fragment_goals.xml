@@ -5,41 +5,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0E1F3D"
     tools:context=".ui.goals.GoalsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingBottom="120dp">
+
+        <!-- Top Card with Water Corner -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/top_card"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="-50dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_gradient_blue">
+
+                <ImageView
+                    android:id="@+id/iv_water_corner"
+                    android:layout_width="230dp"
+                    android:layout_height="230dp"
+                    android:src="@drawable/watercorner"
+                    android:scaleType="fitEnd"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_goal_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 Litres"
+                    android:textColor="#1A237E"
+                    android:textSize="48sp"
+                    android:fontFamily="@font/amita_bold"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginBottom="80dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_objectif_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Objectif"
+                    android:textColor="#1A237E"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/amita_regular"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_goal_number" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btn_add_objective"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#2D8BBA"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_objectif_label"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ajouter votre Objectif !"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/amita_bold"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="4dp"
+                        android:layout_gravity="center" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <!-- Current Goal Card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_current_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#00000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/top_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="24dp">
+                android:padding="32dp">
+
+                <ImageView
+                    android:id="@+id/iv_goal_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_goal"
+                    android:padding="16dp"
+                    android:background="@drawable/bg_button_rounded"
+                    android:backgroundTint="#4DD0E1"
+                    app:tint="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_current_goal_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Objectif actuel"
-                    android:textColor="@color/text_primary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    android:text="Objectif Quotidien"
+                    android:textColor="#1A237E"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/amita_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/iv_goal_icon" />
 
                 <TextView
                     android:id="@+id/tv_current_goal"
@@ -47,9 +147,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="2.0L"
-                    android:textColor="@color/primary_blue"
-                    android:textSize="48sp"
-                    android:textStyle="bold"
+                    android:textColor="#1A237E"
+                    android:textSize="56sp"
+                    android:fontFamily="@font/amita_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_current_goal_title" />
@@ -60,8 +160,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="0% de l'objectif atteint"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="16sp"
+                    android:textColor="#1A237E"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_current_goal" />
@@ -70,11 +170,12 @@
                     android:id="@+id/progress_goal"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
-                    android:layout_height="8dp"
+                    android:layout_height="12dp"
                     android:layout_marginTop="16dp"
                     android:max="200"
                     android:progress="0"
-                    android:progressTint="@color/primary_blue"
+                    android:progressTint="#4DD0E1"
+                    android:progressBackgroundTint="#0E1F3D"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_goal_progress" />
@@ -88,9 +189,11 @@
             android:id="@+id/card_set_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#1A2942"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_current_goal">
@@ -104,10 +207,10 @@
                     android:id="@+id/tv_set_goal_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Définir un objectif quotidien"
-                    android:textColor="@color/text_primary"
+                    android:text="Définir un objectif"
+                    android:textColor="#4DD0E1"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/amita_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -160,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Objectif personnalisé"
-                    android:textColor="@color/text_primary"
+                    android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -184,9 +287,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="2.0L"
-                    android:textColor="@color/primary_blue"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:textColor="#4DD0E1"
+                    android:textSize="32sp"
+                    android:fontFamily="@font/amita_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/seek_bar_goal" />
@@ -194,13 +297,14 @@
                 <Button
                     android:id="@+id/btn_save_goal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_marginTop="24dp"
-                    android:backgroundTint="@color/primary_blue"
-                    android:text="Sauvegarder l'objectif"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:backgroundTint="#4DD0E1"
+                    android:text="💧 Sauvegarder"
+                    android:textColor="#1A237E"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/amita_bold"
+                    app:cornerRadius="30dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_goal_value" />
@@ -213,11 +317,13 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#1A2942"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_current_goal">
+            app:layout_constraintTop_toBottomOf="@id/card_set_goal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -228,10 +334,10 @@
                     android:id="@+id/tv_history_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Historique des objectifs"
-                    android:textColor="@color/text_primary"
+                    android:text="📊 Historique"
+                    android:textColor="#4DD0E1"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/amita_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

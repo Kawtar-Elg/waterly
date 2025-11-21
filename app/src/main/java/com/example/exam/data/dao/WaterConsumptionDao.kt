@@ -12,7 +12,7 @@ interface WaterConsumptionDao {
     fun getConsumptionByDate(userId: Long, date: String): Flow<List<WaterConsumption>>
 
     // Get total consumption for a specific date
-    @Query("SELECT SUM(amount) FROM water_consumption WHERE userId = :userId AND date = :date")
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM water_consumption WHERE userId = :userId AND date = :date")
     suspend fun getTotalConsumptionByDate(userId: Long, date: String): Double
 
     // Get daily total consumption for a week
@@ -29,6 +29,10 @@ interface WaterConsumptionDao {
     // Get monthly total consumption
     @Query("SELECT SUM(amount) FROM water_consumption WHERE userId = :userId AND date BETWEEN :startDate AND :endDate")
     suspend fun getMonthlyTotal(userId: Long, startDate: String, endDate: String): Double
+
+    // Get total consumption between dates
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM water_consumption WHERE userId = :userId AND date BETWEEN :startDate AND :endDate")
+    suspend fun getTotalConsumptionBetweenDates(userId: Long, startDate: String, endDate: String): Double
 
     // Get the day with the highest hydration (fixed: use data class instead of Pair)
     @Query("""

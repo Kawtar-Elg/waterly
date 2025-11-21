@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.exam.R
 import com.example.exam.databinding.FragmentTipsBinding
 
@@ -31,88 +31,47 @@ class TipsFragment : Fragment() {
         setupRecyclerView()
         loadTipsData()
         setupListeners()
+        animateRecyclerView()
+    }
+    
+    private fun animateRecyclerView() {
+        binding.rvTips.alpha = 0f
+        binding.rvTips.translationY = 50f
+        binding.rvTips.animate().alpha(1f).translationY(0f).setDuration(500).setStartDelay(100).start()
     }
     
     private fun setupRecyclerView() {
         tipsAdapter = TipsAdapter { tip ->
-            // Handle tip click
-            showTipDetailDialog(tip)
+            openVideo(tip.videoUrl)
         }
         
         binding.rvTips.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = tipsAdapter
         }
     }
     
     private fun loadTipsData() {
         val tips = listOf(
-            Tip("Buvez un verre d'eau avant chaque repas", "Recommandé par les nutritionnistes pour améliorer la digestion.", TipType.NUTRITION, com.example.exam.R.drawable.ic_nutrition),
-            Tip("Gardez une bouteille d'eau à portée de main", "Ayez toujours une bouteille d'eau près de vous pour ne jamais oublier de boire.", TipType.PRACTICE, com.example.exam.R.drawable.ic_bottle),
-            Tip("Utilisez des applications de rappel", "Programmez des rappels pour vous rappeler de boire de l'eau régulièrement.", TipType.TECHNOLOGY, com.example.exam.R.drawable.ic_reminder),
-            Tip("Ajoutez des fruits à votre eau", "Infusez votre eau avec des citron, concombre ou menthe pour plus de goût.", TipType.RECIPE, com.example.exam.R.drawable.ic_fruit),
-            Tip("Buvez de l'eau dès le réveil", "Commencez votre journée avec un verre d'eau pour hydrater votre corps après le sommeil.", TipType.MORNING, com.example.exam.R.drawable.ic_sunrise),
-            Tip("Remplacez les sodas par de l'eau", "Choisissez l'eau au lieu des boissons sucrées pour une meilleure hydratation.", TipType.SUBSTITUTION, com.example.exam.R.drawable.ic_replace),
-            Tip("Surveillez la couleur de votre urine", "Une urine jaune pâle indique une bonne hydratation, jaune foncé signifie que vous devez boire plus.", TipType.HEALTH, com.example.exam.R.drawable.ic_health),
-            Tip("Buvez plus par temps chaud", "Augmentez votre consommation d'eau quand il fait chaud ou quand vous faites de l'exercice.", TipType.WEATHER, com.example.exam.R.drawable.ic_thermometer)
+            Tip("Importance de l'hydratation - conseils", "Conseils pratiques à suivre pour rester hydraté", TipType.NUTRITION, R.drawable.youtubevid1, "https://www.youtube.com/watch?v=9iMGFqMmUFs"),
+            Tip("Rester hydraté pour votre santé", "Conseils sur l'hydratation pour votre santé", TipType.HEALTH, R.drawable.youtubevid2, "https://www.youtube.com/watch?v=9iMGFqMmUFs"),
+            Tip("Importance de l'hydratation - conseils", "Conseils pratiques à suivre pour rester hydraté", TipType.PRACTICE, R.drawable.youtubevid3, "https://www.youtube.com/watch?v=9iMGFqMmUFs"),
+            Tip("Rester hydraté pour votre santé", "Conseils sur l'hydratation pour votre santé", TipType.WEATHER, R.drawable.youtubevid4, "https://www.youtube.com/watch?v=9iMGFqMmUFs")
         )
         
         tipsAdapter.submitList(tips)
     }
     
     private fun setupListeners() {
-        binding.btnShare.setOnClickListener {
-            shareTips()
-        }
-        
-        binding.btnWatchVideo.setOnClickListener {
-            openHydrationVideo()
-        }
-        
-        binding.btnReadArticles.setOnClickListener {
-            openHydrationArticles()
-        }
+        // Tab buttons handled by parent fragment
     }
     
-    private fun showTipDetailDialog(tip: Tip) {
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
-            .setTitle(tip.title)
-            .setMessage(tip.description)
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            .show()
-    }
-    
-    private fun shareTips() {
-        val shareText = "Découvrez ces conseils d'hydratation avec Waterly!\n\n" +
-                "💧 Buvez un verre d'eau avant chaque repas\n" +
-                "🍼 Gardez une bouteille d'eau à portée de main\n" +
-                "📱 Utilisez des applications de rappel\n\n" +
-                "Téléchargez Waterly pour rester hydraté!"
-        
-        val shareIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, shareText)
-        }
-        
-        startActivity(Intent.createChooser(shareIntent, "Partager les conseils"))
-    }
-    
-    private fun openHydrationVideo() {
+    private fun openVideo(videoUrl: String) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=hydratation+bienfaits"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
             startActivity(intent)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Impossible d'ouvrir la vidéo", Toast.LENGTH_SHORT).show()
-        }
-    }
-    
-    private fun openHydrationArticles() {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=hydratation+conseils+santé"))
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Impossible d'ouvrir les articles", Toast.LENGTH_SHORT).show()
         }
     }
     
@@ -127,7 +86,8 @@ data class Tip(
     val title: String,
     val description: String,
     val type: TipType,
-    val iconResId: Int
+    val iconResId: Int,
+    val videoUrl: String
 )
 
 enum class TipType(val displayName: String) {
@@ -153,9 +113,7 @@ class TipsAdapter(private val onTipClick: (Tip) -> Unit) : androidx.recyclerview
     class TipViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tv_tip_title)
         val tvDescription: TextView = itemView.findViewById(R.id.tv_tip_description)
-        val tvType: TextView = itemView.findViewById(R.id.tv_tip_type)
-        val ivIcon: androidx.appcompat.widget.AppCompatImageView = itemView.findViewById(R.id.iv_tip_icon)
-        val cardTip: com.google.android.material.card.MaterialCardView = itemView.findViewById(R.id.card_tip)
+        val ivThumbnail: android.widget.ImageView = itemView.findViewById(R.id.iv_video_thumbnail)
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TipViewHolder {
@@ -167,25 +125,18 @@ class TipsAdapter(private val onTipClick: (Tip) -> Unit) : androidx.recyclerview
         val tip = tips[position]
         holder.tvTitle.text = tip.title
         holder.tvDescription.text = tip.description
-        holder.tvType.text = tip.type.displayName
-        holder.ivIcon.setImageResource(tip.iconResId)
+        holder.ivThumbnail.setImageResource(tip.iconResId)
         
-        // Set card color based on tip type
-        val cardColor = when (tip.type) {
-            TipType.NUTRITION -> android.graphics.Color.parseColor("#FF9800")
-            TipType.PRACTICE -> android.graphics.Color.parseColor("#2196F3")
-            TipType.TECHNOLOGY -> android.graphics.Color.parseColor("#9C27B0")
-            TipType.RECIPE -> android.graphics.Color.parseColor("#4CAF50")
-            TipType.MORNING -> android.graphics.Color.parseColor("#FF5722")
-            TipType.SUBSTITUTION -> android.graphics.Color.parseColor("#607D8B")
-            TipType.HEALTH -> android.graphics.Color.parseColor("#E91E63")
-            TipType.WEATHER -> android.graphics.Color.parseColor("#FFC107")
+        holder.itemView.alpha = 0f
+        holder.itemView.translationY = 50f
+        holder.itemView.animate().alpha(1f).translationY(0f).setDuration(400).setStartDelay((position * 100).toLong()).start()
+        
+        holder.itemView.setOnClickListener { 
+            it.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).withEndAction {
+                it.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+            }.start()
+            onTipClick(tip)
         }
-        
-        holder.cardTip.setCardBackgroundColor(cardColor)
-        holder.cardTip.alpha = 0.9f
-        
-        holder.itemView.setOnClickListener { onTipClick(tip) }
     }
     
     override fun getItemCount() = tips.size

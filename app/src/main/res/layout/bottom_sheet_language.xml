@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bg_bottom_sheet_rounded">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_language"
+            android:layout_marginEnd="12dp"
+            app:tint="#0E1F3D" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Language"
+            android:textSize="24sp"
+            android:textColor="#0E1F3D"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/language_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_arabic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Arabe"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:padding="12dp"
+            android:buttonTint="#0E1F3D" />
+
+        <RadioButton
+            android:id="@+id/radio_french"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Francais"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:padding="12dp"
+            android:buttonTint="#1976D2" />
+
+        <RadioButton
+            android:id="@+id/radio_english"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Anglais"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:padding="12dp"
+            android:buttonTint="#1976D2" />
+    </RadioGroup>
+
+</LinearLayout>

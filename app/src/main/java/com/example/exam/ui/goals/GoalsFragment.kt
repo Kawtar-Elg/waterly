@@ -34,34 +34,64 @@ class GoalsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        // Get user ID from preferences
         val prefs = requireActivity().getSharedPreferences("waterly_prefs", android.content.Context.MODE_PRIVATE)
         currentUserId = prefs.getLong("current_user_id", 0)
         
         database = (requireActivity().application as WaterlyApp).database
         
+        animateViews()
         setupViews()
         loadUserData()
         setupListeners()
     }
     
+    private fun animateViews() {
+        binding.cardCurrentGoal.alpha = 0f
+        binding.cardCurrentGoal.scaleX = 0.9f
+        binding.cardCurrentGoal.scaleY = 0.9f
+        binding.cardCurrentGoal.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(500).start()
+        
+        binding.cardSetGoal.alpha = 0f
+        binding.cardSetGoal.translationY = 50f
+        binding.cardSetGoal.animate().alpha(1f).translationY(0f).setDuration(500).setStartDelay(200).start()
+        
+        val buttons = listOf(binding.btnGoal1, binding.btnGoal2, binding.btnGoal3, binding.btnGoal4)
+        buttons.forEachIndexed { index, button ->
+            button.alpha = 0f
+            button.scaleX = 0.8f
+            button.scaleY = 0.8f
+            button.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(400).setStartDelay((index * 100 + 400).toLong()).start()
+        }
+    }
+    
     private fun setupViews() {
-        // Setup goal preset buttons
-        val goalPresets = arrayOf("1.5L", "2.0L", "2.5L", "3.0L")
-        binding.btnGoal1.setOnClickListener { setDailyGoal(1.5) }
-        binding.btnGoal2.setOnClickListener { setDailyGoal(2.0) }
-        binding.btnGoal3.setOnClickListener { setDailyGoal(2.5) }
-        binding.btnGoal4.setOnClickListener { setDailyGoal(3.0) }
-        
-        // Setup goal history list
-        binding.goalHistoryRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
-        
-        // Show current goal
-        loadCurrentGoal()
+        binding.btnGoal1.setOnClickListener { 
+            animateButtonClick(it)
+            setDailyGoal(1.5) 
+        }
+        binding.btnGoal2.setOnClickListener { 
+            animateButtonClick(it)
+            setDailyGoal(2.0) 
+        }
+        binding.btnGoal3.setOnClickListener { 
+            animateButtonClick(it)
+            setDailyGoal(2.5) 
+        }
+        binding.btnGoal4.setOnClickListener { 
+            animateButtonClick(it)
+            setDailyGoal(3.0) 
+        }
+    }
+    
+    private fun animateButtonClick(view: View) {
+        view.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction {
+            view.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+        }.start()
     }
     
     private fun setupListeners() {
         binding.btnSaveGoal.setOnClickListener {
+            animateButtonClick(it)
             saveDailyGoal()
         }
         
@@ -117,6 +147,9 @@ class GoalsFragment : Fragment() {
                 currentUser = database.userDao().getUserById(currentUserId)
                 
                 binding.tvCurrentGoal.text = "${String.format("%.1f", goal)}L"
+                binding.cardCurrentGoal.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200).withEndAction {
+                    binding.cardCurrentGoal.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+                }.start()
                 Toast.makeText(requireContext(), "Objectif mis à jour!", Toast.LENGTH_SHORT).show()
                 
                 // Add to goal history

@@ -15,6 +15,8 @@ import com.example.exam.WaterlyApp
 import com.example.exam.data.database.AppDatabase
 import com.example.exam.data.entity.WaterConsumption
 import com.example.exam.databinding.FragmentDashboardBinding
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,111 +43,164 @@ class DashboardFragment : Fragment() {
         
         database = (requireActivity().application as WaterlyApp).database
         
+        setupViewPager()
         setupViews()
-        loadTodayData()
-        loadWeeklyData()
-        setupFloatingActionButton()
+        setupAddObjectiveButton()
+        
+        // Initialize button states
+        updateTabButtons(0)
+        updateDotIndicators(0)
     }
     
     private fun setupViews() {
-        // Setup Lottie animation
-        try {
-            binding.lottieBottle.setAnimation(R.raw.animationbottle)
-            binding.lottieBottle.repeatCount = ValueAnimator.INFINITE
-            binding.lottieBottle.loop(true)
-            binding.lottieBottle.playAnimation()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        animateTopCard()
+        animateTabButtons()
         
-        // Tab buttons
         binding.btnConsumption.setOnClickListener {
-            Toast.makeText(requireContext(), "Consommation", Toast.LENGTH_SHORT).show()
+            animateButtonClick(it)
+            binding.viewPager.currentItem = 0
         }
         binding.btnGraph.setOnClickListener {
-            Toast.makeText(requireContext(), "Graphique", Toast.LENGTH_SHORT).show()
+            animateButtonClick(it)
+            binding.viewPager.currentItem = 1
         }
         binding.btnAdvice.setOnClickListener {
-            Toast.makeText(requireContext(), "Conseils", Toast.LENGTH_SHORT).show()
+            animateButtonClick(it)
+            binding.viewPager.currentItem = 2
         }
     }
     
-    private fun loadTodayData() {
-        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        
-        lifecycleScope.launch {
-            try {
-                val totalConsumption = database.waterConsumptionDao().getTotalConsumptionByDate(currentUserId, today)
-                val goalLiters = 2.0
-                val percentage = ((totalConsumption / goalLiters) * 100).toInt().coerceAtMost(100)
-                val remaining = (goalLiters - totalConsumption).coerceAtLeast(0.0)
-                
-                // Update daily goal
-                binding.tvDailyGoal.text = "${String.format("%.1f", totalConsumption)} Litres"
-                
-                // Update consumption card
-                binding.tvConsumptionAmount.text = "${String.format("%.1f", totalConsumption)}L $percentage%"
-                
-                // Update circular progress
-                binding.circularProgress.progress = percentage
-                binding.tvCircularPercentage.text = "$percentage%"
-                
-                // Update bottle percentage text
-                binding.tvBottlePercentage.text = "$percentage%"
-                
-                // Update Lottie animation progress based on percentage
-                val progress = percentage / 100f
-                binding.lottieBottle.progress = progress
-                
-            } catch (e: Exception) {
-                if (isAdded && context != null) {
-                    Toast.makeText(requireContext(), "Erreur lors du chargement des données", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+    private fun animateTopCard() {
+        binding.topCard.alpha = 0f
+        binding.topCard.translationY = -50f
+        binding.topCard.animate().alpha(1f).translationY(0f).setDuration(500).start()
     }
     
-    private fun loadWeeklyData() {
-        // Weekly data loading removed for simplified dashboard
+    private fun animateTabButtons() {
+        binding.tabIndicator.alpha = 0f
+        binding.tabScroll.alpha = 0f
+        binding.tabIndicator.animate().alpha(1f).setDuration(400).setStartDelay(300).start()
+        binding.tabScroll.animate().alpha(1f).setDuration(400).setStartDelay(400).start()
     }
     
-    private fun setupFloatingActionButton() {
-        var dX = 0f
-        var dY = 0f
-        var lastAction = 0
+    private fun animateButtonClick(view: View) {
+        view.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction {
+            view.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+        }.start()
+    }
 
-        binding.fabAddWater.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                android.view.MotionEvent.ACTION_DOWN -> {
-                    dX = view.x - event.rawX
-                    dY = view.y - event.rawY
-                    lastAction = android.view.MotionEvent.ACTION_DOWN
-                }
-                android.view.MotionEvent.ACTION_MOVE -> {
-                    view.x = event.rawX + dX
-                    view.y = event.rawY + dY
-                    lastAction = android.view.MotionEvent.ACTION_MOVE
-                }
-                android.view.MotionEvent.ACTION_UP -> {
-                    if (lastAction == android.view.MotionEvent.ACTION_DOWN) {
-                        showAddWaterDialog()
+    
+    private fun setupViewPager() {
+        val adapter = DashboardPagerAdapter(this)
+        binding.viewPager.adapter = adapter
+        binding.viewPager.setPageTransformer(ZoomOutPageTransformer())
+        
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                updateTabButtons(position)
+                updateDotIndicators(position)
+            }
+        })
+    }
+    
+    private class ZoomOutPageTransformer : ViewPager2.PageTransformer {
+        override fun transformPage(view: View, position: Float) {
+            view.apply {
+                val pageWidth = width
+                when {
+                    position < -1 -> alpha = 0f
+                    position <= 1 -> {
+                        val scaleFactor = Math.max(0.85f, 1 - Math.abs(position))
+                        val vertMargin = pageWidth * (1 - scaleFactor) / 2
+                        val horzMargin = pageWidth * (1 - scaleFactor) / 2
+                        translationX = if (position < 0) {
+                            horzMargin - vertMargin / 2
+                        } else {
+                            horzMargin + vertMargin / 2
+                        }
+                        scaleX = scaleFactor
+                        scaleY = scaleFactor
+                        alpha = 0.5f + (scaleFactor - 0.85f) / (1 - 0.85f) * 0.5f
                     }
+                    else -> alpha = 0f
                 }
             }
-            true
+        }
+    }
+    
+    private fun updateTabButtons(position: Int) {
+        when (position) {
+            0 -> {
+                animateButtonTransition(binding.btnConsumption, true)
+                animateButtonTransition(binding.btnGraph, false)
+                animateButtonTransition(binding.btnAdvice, false)
+            }
+            1 -> {
+                animateButtonTransition(binding.btnGraph, true)
+                animateButtonTransition(binding.btnConsumption, false)
+                animateButtonTransition(binding.btnAdvice, false)
+            }
+            2 -> {
+                animateButtonTransition(binding.btnAdvice, true)
+                animateButtonTransition(binding.btnConsumption, false)
+                animateButtonTransition(binding.btnGraph, false)
+            }
+        }
+    }
+    
+    private fun animateButtonTransition(button: android.widget.Button, isActive: Boolean) {
+        button.animate().scaleX(if (isActive) 1.05f else 1f).scaleY(if (isActive) 1.05f else 1f).setDuration(200).start()
+        button.backgroundTintList = android.content.res.ColorStateList.valueOf(
+            android.graphics.Color.parseColor(if (isActive) "#4DD0E1" else "#00000000")
+        )
+        button.setTextColor(android.graphics.Color.parseColor(if (isActive) "#1A237E" else "#FFFFFF"))
+    }
+    
+    private inner class DashboardPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+        override fun getItemCount(): Int = 3
+        
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> DashboardContentFragment()
+                1 -> com.example.exam.ui.consumption.ConsumptionFragment()
+                2 -> com.example.exam.ui.tips.TipsFragment()
+                else -> DashboardContentFragment()
+            }
+        }
+    }
+    
+    private fun setupAddObjectiveButton() {
+        binding.btnAddObjective.setOnClickListener {
+            showAddWaterDialog()
         }
     }
     
     private fun showAddWaterDialog() {
-        val amounts = arrayOf("250ml", "500ml", "750ml", "1L")
-        val values = floatArrayOf(0.25f, 0.5f, 0.75f, 1.0f)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_water, null)
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
         
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
-            .setTitle("Ajouter de l'eau")
-            .setItems(amounts) { _, which ->
-                addWaterConsumption(values[which])
-            }
-            .show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        
+        dialogView.findViewById<androidx.cardview.widget.CardView>(R.id.card_250ml).setOnClickListener {
+            addWaterConsumption(0.25f)
+            dialog.dismiss()
+        }
+        dialogView.findViewById<androidx.cardview.widget.CardView>(R.id.card_500ml).setOnClickListener {
+            addWaterConsumption(0.5f)
+            dialog.dismiss()
+        }
+        dialogView.findViewById<androidx.cardview.widget.CardView>(R.id.card_750ml).setOnClickListener {
+            addWaterConsumption(0.75f)
+            dialog.dismiss()
+        }
+        dialogView.findViewById<androidx.cardview.widget.CardView>(R.id.card_1l).setOnClickListener {
+            addWaterConsumption(1.0f)
+            dialog.dismiss()
+        }
+        
+        dialog.show()
     }
     
     private fun addWaterConsumption(amount: Float) {
@@ -153,7 +208,7 @@ class DashboardFragment : Fragment() {
         
         lifecycleScope.launch {
             try {
-                val consumption = WaterConsumption(
+                val consumption = com.example.exam.data.entity.WaterConsumption(
                     userId = currentUserId,
                     amount = amount.toDouble(),
                     date = today
@@ -162,14 +217,33 @@ class DashboardFragment : Fragment() {
                 database.waterConsumptionDao().insertConsumption(consumption)
                 
                 if (isAdded && context != null) {
-                    Toast.makeText(requireContext(), "${amount}L ajoutés!", Toast.LENGTH_SHORT).show()
-                    loadTodayData()
+                    android.widget.Toast.makeText(requireContext(), "${amount}L ajoutés!", android.widget.Toast.LENGTH_SHORT).show()
                 }
                 
             } catch (e: Exception) {
                 if (isAdded && context != null) {
-                    Toast.makeText(requireContext(), "Erreur lors de l'ajout", Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(requireContext(), "Erreur lors de l'ajout", android.widget.Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+    
+    private fun updateDotIndicators(position: Int) {
+        when (position) {
+            0 -> {
+                binding.dot1.animate().scaleX(2f).setDuration(200).start()
+                binding.dot2.animate().scaleX(1f).setDuration(200).start()
+                binding.dot3.animate().scaleX(1f).setDuration(200).start()
+            }
+            1 -> {
+                binding.dot1.animate().scaleX(1f).setDuration(200).start()
+                binding.dot2.animate().scaleX(2f).setDuration(200).start()
+                binding.dot3.animate().scaleX(1f).setDuration(200).start()
+            }
+            2 -> {
+                binding.dot1.animate().scaleX(1f).setDuration(200).start()
+                binding.dot2.animate().scaleX(1f).setDuration(200).start()
+                binding.dot3.animate().scaleX(2f).setDuration(200).start()
             }
         }
     }

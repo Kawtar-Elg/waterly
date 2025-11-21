@@ -22,7 +22,7 @@
     <color name="warning_orange">#FF9800</color>
     
     <!-- Divider Color -->
-    <color name="divider_color">#E0E0E0</color>
+<!--    <color name="divider_color">#E0E0E0</color>-->
     
      Bottom Navigation Colors
     <color name="bottom_nav_color_selector">

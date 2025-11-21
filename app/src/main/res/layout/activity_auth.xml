@@ -298,15 +298,6 @@
 
 </ScrollView>
 
-<ImageView
-    android:id="@+id/iv_floating_button"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:layout_gravity="bottom|end"
-    android:layout_margin="16dp"
-    android:src="@drawable/bottonflottonte"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="@android:color/transparent" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

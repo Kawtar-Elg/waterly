@@ -46,8 +46,31 @@ class AccountFragment : Fragment() {
 
         database = (requireActivity().application as WaterlyApp).database
 
+        animateViews()
         loadUserData()
         setupListeners()
+    }
+    
+    private fun animateViews() {
+        binding.topCard.alpha = 0f
+        binding.topCard.translationY = -30f
+        binding.topCard.animate().alpha(1f).translationY(0f).setDuration(500).start()
+        
+        val cards = listOf(
+            binding.layoutChangePassword,
+            binding.layoutLanguage
+        )
+        
+        cards.forEachIndexed { index, card ->
+            card.alpha = 0f
+            card.translationX = -50f
+            card.animate().alpha(1f).translationX(0f).setDuration(400).setStartDelay((index * 100 + 200).toLong()).start()
+        }
+        
+        binding.btnLogout.alpha = 0f
+        binding.btnLogout.scaleX = 0.8f
+        binding.btnLogout.scaleY = 0.8f
+        binding.btnLogout.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(400).setStartDelay(500).start()
     }
 
     private fun loadUserData() {
@@ -77,37 +100,75 @@ class AccountFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.btnEditProfile.setOnClickListener { showEditProfileDialog() }
-        binding.layoutChangePassword.setOnClickListener { showChangePasswordDialog() }
-        binding.layoutNotifications.setOnClickListener { showNotificationsSettings() }
-        binding.layoutPrivacy.setOnClickListener { showPrivacySettings() }
-        binding.layoutLanguage.setOnClickListener { showLanguageSelection() }
-        binding.btnLogout.setOnClickListener { performLogout() }
-        binding.btnDeleteAccount.setOnClickListener { showDeleteAccountDialog() }
+        binding.btnEditProfile.setOnClickListener { 
+            animateClick(it)
+            showEditProfileDialog() 
+        }
+        binding.layoutChangePassword.setOnClickListener { 
+            animateClick(it)
+            showChangePasswordDialog() 
+        }
+        binding.layoutLanguage.setOnClickListener { 
+            animateClick(it)
+            showLanguageSelection() 
+        }
+        binding.btnLogout.setOnClickListener { 
+            animateClick(it)
+            performLogout() 
+        }
+    }
+    
+    private fun animateClick(view: View) {
+        view.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).withEndAction {
+            view.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+        }.start()
     }
 
     private fun showEditProfileDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Modifier le profil")
-            .setMessage("Fonctionnalité en cours de développement")
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            .show()
+        val fragment = com.example.exam.ui.profile.EditProfileFragment()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun showChangePasswordDialog() {
-        val input = EditText(requireContext())
-        input.hint = "Nouveau mot de passe"
+        val dialogView = layoutInflater.inflate(R.layout.dialog_change_password, null)
+        val currentPasswordInput = dialogView.findViewById<EditText>(R.id.etCurrentPassword)
+        val newPasswordInput = dialogView.findViewById<EditText>(R.id.etNewPassword)
+        val confirmPasswordInput = dialogView.findViewById<EditText>(R.id.etConfirmPassword)
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("Changer le mot de passe")
-            .setView(input)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
             .setPositiveButton("Confirmer") { dialog, _ ->
-                val newPassword = input.text.toString()
-                if (newPassword.isNotEmpty()) updatePassword(newPassword)
-                dialog.dismiss()
+                val currentPassword = currentPasswordInput.text.toString()
+                val newPassword = newPasswordInput.text.toString()
+                val confirmPassword = confirmPasswordInput.text.toString()
+
+                when {
+                    currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty() -> {
+                        Toast.makeText(requireContext(), "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
+                    }
+                    currentPassword != currentUser?.password -> {
+                        Toast.makeText(requireContext(), "Mot de passe actuel incorrect", Toast.LENGTH_SHORT).show()
+                    }
+                    newPassword.length < 6 -> {
+                        Toast.makeText(requireContext(), "Le mot de passe doit contenir au moins 6 caractères", Toast.LENGTH_SHORT).show()
+                    }
+                    newPassword != confirmPassword -> {
+                        Toast.makeText(requireContext(), "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        updatePassword(newPassword)
+                        dialog.dismiss()
+                    }
+                }
             }
             .setNegativeButton("Annuler") { dialog, _ -> dialog.dismiss() }
-            .show()
+            .create()
+        
+        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_bg)
+        dialog.show()
     }
 
     private fun updatePassword(newPassword: String) {

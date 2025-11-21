@@ -3,6 +3,8 @@ package com.example.exam
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +14,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import com.example.exam.data.database.AppDatabase
 import com.example.exam.ui.dashboard.DashboardFragment
@@ -44,6 +47,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupDrawer()
         setupBottomNavigation()
         loadInitialFragment()
+        setupWaterReminders()
+    }
+    
+    private fun setupWaterReminders() {
+        com.example.exam.notification.NotificationHelper.scheduleWaterReminder(this, 2)
     }
 
     private fun setupToolbar() {
@@ -66,6 +74,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        
+        loadNavHeaderData(navView)
+    }
+    
+    private fun loadNavHeaderData(navView: NavigationView) {
+        val headerView = navView.getHeaderView(0)
+        val tvUsername = headerView.findViewById<android.widget.TextView>(R.id.tv_nav_username)
+        val tvEmail = headerView.findViewById<android.widget.TextView>(R.id.tv_nav_email)
+        val tvGoal = headerView.findViewById<android.widget.TextView>(R.id.tv_nav_goal)
+        
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val user = database.userDao().getUserById(currentUserId)
+                user?.let {
+                    tvUsername.text = it.username
+                    tvEmail.text = it.email
+                    tvGoal.text = "${String.format("%.1f", it.dailyGoal)}L Goal"
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun setupBottomNavigation() {
@@ -77,16 +107,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     true
                 }
                 R.id.nav_notifications -> {
-                    Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show()
+                    replaceFragment(com.example.exam.ui.notifications.NotificationsFragment())
                     true
                 }
                 R.id.nav_settings -> {
-                    Toast.makeText(this, "Paramètres", Toast.LENGTH_SHORT).show()
+                    replaceFragment(com.example.exam.ui.account.AccountFragment())
                     true
                 }
                 else -> false
             }
         }
+        showNotificationBadge()
+    }
+    
+    private fun showNotificationBadge() {
+        val badge = bottomNavigation.getOrCreateBadge(R.id.nav_notifications)
+        badge.isVisible = true
+        badge.number = 5
+        badge.backgroundColor = android.graphics.Color.parseColor("#FF0000")
+        badge.badgeTextColor = android.graphics.Color.WHITE
     }
 
     private fun loadInitialFragment() {
@@ -101,11 +140,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.nav_dashboard -> {
+                replaceFragment(DashboardFragment())
+                bottomNavigation.selectedItemId = R.id.nav_dashboard
+            }
+            R.id.nav_goals -> {
+                replaceFragment(com.example.exam.ui.goals.GoalsFragment())
+            }
             R.id.nav_profile -> {
-                Toast.makeText(this, "Mon profile", Toast.LENGTH_SHORT).show()
+                replaceFragment(com.example.exam.ui.account.AccountFragment())
+                bottomNavigation.selectedItemId = R.id.nav_settings
             }
             R.id.nav_language -> {
                 showLanguageDialog()
+            }
+            R.id.nav_notifications -> {
+                Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_logout -> {
                 logout()
@@ -119,26 +169,39 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
+        } else if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
     }
 
     private fun showLanguageDialog() {
-        val languages = arrayOf("Français", "English", "العربية")
-        val currentLanguage = getCurrentLanguage()
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_language, null)
+        bottomSheetDialog.setContentView(view)
 
-        AlertDialog.Builder(this)
-            .setTitle("Choisir la langue")
-            .setSingleChoiceItems(languages, getLanguageIndex(currentLanguage)) { dialog, which ->
-                when (which) {
-                    0 -> setLanguage("fr")
-                    1 -> setLanguage("en")
-                    2 -> setLanguage("ar")
-                }
-                dialog.dismiss()
+        val radioGroup = view.findViewById<RadioGroup>(R.id.language_radio_group)
+        val radioArabic = view.findViewById<RadioButton>(R.id.radio_arabic)
+        val radioFrench = view.findViewById<RadioButton>(R.id.radio_french)
+        val radioEnglish = view.findViewById<RadioButton>(R.id.radio_english)
+
+        when (getCurrentLanguage()) {
+            "ar" -> radioArabic.isChecked = true
+            "fr" -> radioFrench.isChecked = true
+            "en" -> radioEnglish.isChecked = true
+        }
+
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.radio_arabic -> setLanguage("ar")
+                R.id.radio_french -> setLanguage("fr")
+                R.id.radio_english -> setLanguage("en")
             }
-            .show()
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.show()
     }
 
     private fun getCurrentLanguage(): String {

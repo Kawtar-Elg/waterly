@@ -5,67 +5,69 @@
     android:id="@+id/card_tip"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="16dp"
-    app:cardElevation="2dp">
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_tip_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="Tip icon"
-            android:padding="8dp"
-            android:tint="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_water_drop" />
+        <ImageView
+            android:id="@+id/iv_video_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_play_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_media_play"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:backgroundTint="#FF0000"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="@id/iv_video_thumbnail"
+            app:layout_constraintBottom_toBottomOf="@id/iv_video_thumbnail"
+            app:layout_constraintStart_toStartOf="@id/iv_video_thumbnail"
+            app:layout_constraintEnd_toEndOf="@id/iv_video_thumbnail" />
 
         <TextView
             android:id="@+id/tv_tip_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="8dp"
-            android:text="Buvez un verre d'eau avant chaque repas"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:layout_margin="12dp"
+            android:text="Importance de l'hydratation"
+            android:textColor="#1A237E"
+            android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/tv_tip_type"
-            app:layout_constraintStart_toEndOf="@id/iv_tip_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_tip_icon" />
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_video_thumbnail" />
 
         <TextView
             android:id="@+id/tv_tip_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="Recommandé par les nutritionnistes pour améliorer la digestion."
-            android:textColor="@color/white_alpha_80"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/tv_tip_type"
-            app:layout_constraintStart_toEndOf="@id/iv_tip_icon"
-            app:layout_constraintTop_toBottomOf="@id/tv_tip_title" />
-
-        <TextView
-            android:id="@+id/tv_tip_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:text="Nutrition"
-            android:textColor="@color/text_primary"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="Conseils sur l'hydratation"
+            android:textColor="#546E7A"
             android:textSize="12sp"
-            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_tip_title"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

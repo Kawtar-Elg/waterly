@@ -106,4 +106,17 @@
     <!-- Drawer Navigation -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    
+    <!-- Consumption Fragment -->
+    <string name="consumption_chart_title">Graphique de la consommation d\'eau :</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="monthly_stats">Monthly Stats</string>
+    <string name="goal_achievement">Goal Achievement</string>
+    <string name="total_water_intake">Total Water Intake</string>
+    <string name="average_per_day">Average Per Day</string>
+    <string name="this_month">This Month</string>
+    <string name="days">days</string>
+    <string name="liters">liters</string>
 </resources>
